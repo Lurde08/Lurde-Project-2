@@ -1,0 +1,1117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Foody — Organic Food Template (recreated)</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+        integrity="sha512-Xx..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Swiper (hero + testimonials) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+    <!-- AOS (scroll animations) -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+    <style>
+        /* ===========================
+       Basic / Reset
+       ============================ */
+        :root {
+            --brand: #6fbf3f;
+            /* green */
+            --accent: #f6b33b;
+            /* yellow accent */
+            --dark: #222;
+            --muted: #777;
+            --max-width: 1200px;
+            --nav-height: 72px;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            color: #222;
+            background: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            padding-top: var(--nav-height);
+            /* avoid content hidden behind fixed nav */
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* ===========================
+       Top info bar
+       ============================ */
+        .topbar {
+            background: #111;
+            color: #fff;
+            font-size: 14px;
+            padding: 8px 0;
+        }
+
+        .topbar .container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .topbar .left {
+            display: flex;
+            gap: 18px;
+            align-items: center;
+            color: #ddd;
+        }
+
+        .topbar .left i {
+            color: var(--accent);
+            margin-right: 6px;
+        }
+
+        .topbar .right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .topbar a {
+            color: #ddd;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .topbar .social a {
+            color: #ddd;
+            padding: 6px;
+            border-radius: 6px;
+            transition: all .15s;
+        }
+
+        .topbar .social a:hover {
+            color: var(--dark);
+            background: var(--accent);
+        }
+
+        /* ===========================
+       NAVBAR
+       ============================ */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--nav-height);
+            background: rgba(255, 255, 255, 0.92);
+            z-index: 999;
+            box-shadow: 0 6px 18px rgba(18, 18, 18, 0.06);
+            backdrop-filter: blur(6px);
+        }
+
+        .nav-inner {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand {
+            font-weight: 800;
+            color: var(--brand);
+            font-size: 1.15rem;
+            letter-spacing: 0.6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img {
+            height: 34px;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        /* desktop menu */
+        .menu {
+            display: flex;
+            gap: 18px;
+            list-style: none;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 10px;
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 0.95rem;
+        }
+
+        .menu a:hover {
+            background: var(--brand);
+            color: #fff;
+            transform: translateY(-2px);
+            transition: all .12s;
+        }
+
+        /* CTA in nav */
+        .nav-cta {
+            margin-left: 12px;
+            background: var(--accent);
+            color: #111;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* hamburger (mobile) */
+        .hamburger {
+            display: none;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            background: #fff;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .hamburger .bar {
+            width: 18px;
+            height: 2px;
+            background: #222;
+            display: block;
+            border-radius: 2px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .hamburger .bar-top {
+            top: 40%;
+        }
+        .hamburger .bar-mid {
+            top: 50%;
+        }
+        .hamburger .bar-bottom {
+            top: 60%;
+        }
+        
+
+        /* removed pseudo-elements, now using three spans */
+
+        /* mobile collapsible panel */
+        .mobile-panel {
+            position: fixed;
+            top: var(--nav-height);
+            left: 0;
+            right: 0;
+            background: #fff;
+            z-index: 1001; /* higher than hero and navbar */
+            border-bottom: 1px solid rgba(18, 18, 18, 0.06);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .36s ease, padding .28s ease;
+            box-shadow: 0 20px 40px rgba(18, 18, 18, 0.06);
+        }
+
+        .mobile-panel.open {
+            max-height: 520px;
+            padding: 18px 0;
+        }
+
+        .mobile-panel .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mobile-panel .menu {
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
+            padding-left: 6px;
+        }
+
+        .mobile-panel .menu a {
+            padding: 12px 8px;
+            width: 100%;
+            color: var(--dark);
+        }
+
+        /* ===========================
+       HERO (Swiper)
+       ============================ */
+        .hero {
+            position: relative;
+            min-height: calc(100vh - var(--nav-height) - 40px);
+            display: grid;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero .swiper-slide {
+            display: grid;
+            place-items: center;
+            position: relative;
+            color: #fff;
+        }
+
+        .hero .hero-inner {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 980px;
+            padding: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin: 0 0 12px;
+            line-height: 1.02;
+            text-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        .hero p {
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 18px;
+            text-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+        }
+
+        .hero .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #111;
+            font-weight: 800;
+            text-decoration: none;
+            margin: 4px;
+            box-shadow: 0 8px 20px rgba(246, 179, 59, 0.12);
+        }
+
+        .hero .overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(6, 10, 6, 0.28), rgba(6, 10, 6, 0.45));
+            z-index: 1;
+        }
+
+        /* Swiper arrows */
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #fff;
+        }
+
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.6;
+        }
+
+        /* ===========================
+       Sections: features, products, visit, testimonials, blog
+       ============================ */
+        section {
+            padding: 72px 0;
+        }
+
+        h2.section-title {
+            text-align: center;
+            font-size: 1.9rem;
+            margin: 0 0 18px;
+            color: var(--dark);
+        }
+
+        /* features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            max-width: 1100px;
+            margin: 24px auto 0;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+
+        .feature-card i {
+            font-size: 28px;
+            color: var(--brand);
+            margin-bottom: 10px;
+        }
+
+        /* products */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .product {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+        }
+
+        .product .media {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .product .body {
+            padding: 14px;
+        }
+
+        .product .badge {
+            display: inline-block;
+            background: var(--brand);
+            color: #fff;
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            margin-bottom: 8px;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .price-row .price {
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .product .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            padding: 9px 12px;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            padding: 9px 12px;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #111;
+            border: none;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        /* visit CTA */
+        .visit {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(90deg, rgba(111, 191, 63, 0.06), rgba(246, 179, 59, 0.04));
+            padding: 28px;
+            border-radius: 12px;
+        }
+
+        /* testimonials */
+        .testi .swiper-slide {
+            padding: 18px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        .testi .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .testi .txt h4 {
+            margin: 0 0 6px;
+        }
+
+        /* blog */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 16px;
+        }
+
+        .post {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        /* gallery (simple) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .gallery-grid figure {
+            margin: 0;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .gallery-grid img {
+            display: block;
+            transition: transform .35s;
+        }
+
+        .gallery-grid figure:hover img {
+            transform: scale(1.06);
+        }
+
+        /* contact */
+        .contact-card {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 8px 26px rgba(0, 0, 0, 0.07);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .form-row input,
+        .form-row textarea {
+            flex: 1 1 220px;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e6e6e6;
+            outline: none;
+        }
+
+        /* footer */
+        footer {
+            background: #111;
+            color: #ddd;
+            padding: 36px 0;
+            margin-top: 28px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            align-items: start;
+        }
+
+        /* small text helpers */
+        .muted {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        /* ===========================
+       Media queries
+       ============================ */
+        @media (max-width: 992px) {
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .blog-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* tablet breakpoint 768px */
+        @media (max-width: 768px) {
+            header .menu {
+                display: none;
+            }
+            .mobile-panel.open {
+                top: var(--nav-height);
+                padding-top: 8px;
+            }
+        }
+
+        /* small phones 576px */
+        @media (max-width: 576px) {
+            .container {
+                padding: 0 14px;
+            }
+
+            .topbar .container {
+                flex-direction: column;
+                gap: 6px;
+                align-items: flex-start;
+            }
+
+            .nav-inner {
+                padding: 0 12px;
+            }
+
+            .hero {
+                min-height: calc(50vh - var(--nav-height));
+            }
+            .hero .hero-inner {
+                max-width: 100vw;
+                padding: 8px;
+            }
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            .hero p {
+                font-size: 0.92rem;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Top info -->
+    <div class="topbar">
+        <div class="container">
+            <div class="left">
+                <div><i class="fa-solid fa-location-dot"></i> 123 Street, New York, USA</div>
+                <div><i class="fa-solid fa-envelope"></i> info@example.com</div>
+            </div>
+            <div class="right">
+                <div class="muted">Follow us:</div>
+                <div class="social">
+                    <a href="#" aria-label="facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="instagram"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <header class="navbar" role="banner" aria-label="Main navigation">
+        <div class="container nav-inner">
+            <a href="#home" class="brand">
+                <!-- optional logo image -->
+                <img src="https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=80&q=60"
+                    alt="logo" />
+                ⱠɄⱤĐɆ's 
+            </a>
+
+            <!-- desktop menu -->
+            <nav aria-label="primary">
+                <ul class="menu" role="menubar">
+                    <li role="none"><a role="menuitem" href="#home">Home</a></li>
+                    <li role="none"><a role="menuitem" href="#about">About Us</a></li>
+                    <li role="none"><a role="menuitem" href="#products">Products</a></li>
+                    <li role="none"><a role="menuitem" href="#gallery">Gallery</a></li>
+                    <li role="none"><a role="menuitem" href="#contact">Contact Us</a></li>
+                </ul>
+            </nav>
+
+            <!-- CTA + hamburger -->
+            <div style="display:flex;gap:10px; align-items:center;">
+                <a class="nav-cta" href="#products">Shop Now</a>
+                <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-controls="mobile-panel"
+                    aria-expanded="false">
+                    <span class="bar bar-top"></span>
+                    <span class="bar bar-mid"></span>
+                    <span class="bar bar-bottom"></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- mobile collapsible panel (hidden on desktop) -->
+        <div id="mobile-panel" class="mobile-panel" aria-hidden="true">
+            <div class="container">
+                <nav>
+                    <ul class="menu">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About Us</a></li>
+                        <li><a href="#products">Products</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO / SLIDER -->
+    <section class="hero" id="home">
+        <div class="overlay"></div>
+        <div class="hero-inner container">
+            <!-- Swiper main -->
+            <div class="swiper hero-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide"
+                        style="background-image:url('https://images.unsplash.com/photo-1506807803488-8eafc153f9d3?auto=format&fit=crop&w=1600&q=80'); background-size:cover;">
+                        <div class="hero-inner" data-aos="fade-up">
+                            <!-- <h1>Organic Food Is Good For Health</h1>
+                            <p class="muted">Fresh produce from our farms to your table — healthy, natural and safe.</p>
+                            <a class="btn" href="#products">Products</a> -->
+                            <!-- <a class="btn"
+                                style="background:transparent;color:#fff;border:2px solid rgba(255,255,255,0.18)"
+                                href="#about">Services</a> -->
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide"
+                        style="background-image:url('https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1600&q=80');">
+                        <div class="hero-inner" data-aos="fade-up">
+                            <h1>Natural Food Is Always Healthy</h1>
+                            <p class="muted">Sourced responsibly. Packed with nutrients and love.</p>
+                            <a class="btn" href="#products">Products</a>
+                        </div>
+                    </div>
+
+                    <div class="swiper-slide"
+                        style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1600&q=80');">
+                        <div class="hero-inner" data-aos="fade-up">
+                            <h1>Best Organic Fruits And Vegetables</h1>
+                            <p class="muted">Picked fresh and delivered to your doorstep.</p>
+                            <a class="btn" href="#products">Browse Products</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- arrows & pagination -->
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+
+        <!-- FEATURES -->
+        <section id="about">
+            <div class="container">
+                <h2 class="section-title">Our Features</h2>
+                <div class="features" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-card">
+                        <i class="fa-solid fa-seedling"></i>
+                        <h4>Natural Process</h4>
+                        <p class="muted">We use sustainable farming methods to grow organic produce.</p>
+                        <a class="muted" href="#">Read More</a>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fa-solid fa-box-open"></i>
+                        <h4>Organic Products</h4>
+                        <p class="muted">Certified organic fruits and vegetables from trusted farms.</p>
+                        <a class="muted" href="#">Read More</a>
+                    </div>
+                    <div class="feature-card">
+                        <i class="fa-solid fa-heart"></i>
+                        <h4>Biologically Safe</h4>
+                        <p class="muted">Products free from harmful chemicals and preservatives.</p>
+                        <a class="muted" href="#">Read More</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS -->
+        <section id="products">
+            <div class="container">
+                <h2 class="section-title">Our Products</h2>
+                <p class="muted" style="text-align:center; max-width:800px; margin:0 auto 12px">High quality, freshly
+                    harvested and carefully packed to keep nutrients intact.</p>
+
+                <div class="products-grid" data-aos="fade-up" data-aos-delay="120">
+                    <!-- product 1 -->
+                    <article class="product">
+                        <div class="media"
+                            style="background-image:url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80');">
+                        </div>
+                        <div class="body">
+                            <span class="badge">New</span>
+                            <h4>Fresh Tomato</h4>
+                            <p class="muted">Locally grown, juicy and ripe.</p>
+                            <div class="price-row">
+                                <div class="price">$19.00 <span class="muted"
+                                        style="text-decoration:line-through; font-weight:600; color:#bbb; margin-left:8px;">$29.00</span>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn-outline">View detail</button>
+                                    <button class="btn-primary">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- product 2 -->
+                    <article class="product">
+                        <div class="media"
+                            style="background-image:url('https://images.unsplash.com/photo-1567306226416-28f0efdc88ce?auto=format&fit=crop&w=1200&q=80');">
+                        </div>
+                        <div class="body">
+                            <span class="badge">New</span>
+                            <h4>Organic Apple</h4>
+                            <p class="muted">Crisp and delicious.</p>
+                            <div class="price-row">
+                                <div class="price">$15.00 <span class="muted"
+                                        style="text-decoration:line-through; font-weight:600; color:#bbb; margin-left:8px;">$22.00</span>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn-outline">View detail</button>
+                                    <button class="btn-primary">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- product 3 -->
+                    <article class="product">
+                        <div class="media"
+                            style="background-image:url('https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=1200&q=80');">
+                        </div>
+                        <div class="body">
+                            <span class="badge">New</span>
+                            <h4>Fresh Cucumber</h4>
+                            <p class="muted">Cool and crisp.</p>
+                            <div class="price-row">
+                                <div class="price">$10.00 <span class="muted"
+                                        style="text-decoration:line-through; font-weight:600; color:#bbb; margin-left:8px;">$14.00</span>
+                                </div>
+                                <div class="actions">
+                                    <button class="btn-outline">View detail</button>
+                                    <button class="btn-primary">Add to cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <div style="text-align:center; margin-top:18px;">
+                    <a href="#" class="btn" style="background:var(--brand); color:#fff;">Browse More Products</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visit Our Farm CTA -->
+        <section>
+            <div class="container">
+                <div class="visit" data-aos="fade-up">
+                    <div>
+                        <h3>Visit Our Farm</h3>
+                        <p class="muted">See the farms, meet the farmers and learn how we grow your food.</p>
+                    </div>
+                    <div>
+                        <a class="btn" href="#" style="background:var(--brand); color:#fff;">Visit Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">Customer Review</h2>
+                <div class="testi" data-aos="fade-up">
+                    <div class="swiper testi-swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div style="display:flex;gap:12px">
+                                    <div class="avatar"><img
+                                            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=300&q=60"
+                                            alt="client"
+                                            style="width:72px;height:72px;object-fit:cover;border-radius:12px;"></div>
+                                    <div class="txt">
+                                        <h4>Cl-01--Thermal</h4>
+                                        <p class="muted">Profession</p>
+                                        <p class="muted">“Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit.”
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div style="display:flex;gap:12px">
+                                    <div class="avatar"><img
+                                            src="https://images.unsplash.com/photo-1729010824753-7f9e73a27c69?q=80"
+                                            alt="client"
+                                            style="width:72px;height:72px;object-fit:cover;border-radius:12px;"></div>
+                                    <div class="txt">
+                                        <h4>Cl-02--Canine</h4>
+                                        <p class="muted">Profession</p>
+                                        <p class="muted">“Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo
+                                            justo magna dolore erat amet.”</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="swiper-slide">
+                                <div style="display:flex;gap:12px">
+                                    <div class="avatar"><img
+                                            src="https://images.unsplash.com/photo-1729010874499-100fc22ca400?q=80"
+                                            alt="client"
+                                            style="width:72px;height:72px;object-fit:cover;border-radius:12px;"></div>
+                                    <div class="txt">
+                                        <h4>CL-03--Kadija</h4>
+                                        <p class="muted">Profession</p>
+                                        <p class="muted">“Tempor ut dolore lorem kasd vero ipsum sit eirmod sit.”</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- pagination -->
+                        <div class="swiper-pagination testi-pg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LATEST BLOG -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">Latest Blog</h2>
+                <div class="blog-grid" data-aos="fade-up">
+                    <article class="post">
+                        <img src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=1200&q=80"
+                            alt="">
+                        <div style="padding:12px">
+                            <h4>How to cultivate organic fruits and vegetables</h4>
+                            <p class="muted">Admin --  ⱠɄⱤĐɆ -- 01 Jan, 2043</p>
+                        </div>
+                    </article>
+
+                    <article class="post">
+                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=80"
+                            alt="">
+                        <div style="padding:12px">
+                            <h4>Tips for homegrown veggies</h4>
+                            <p class="muted">Admin --  ⱠɄⱤĐɆ -- 01 Jan, 2045</p>
+                        </div>
+                    </article>
+
+                    <article class="post">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1200&q=80"
+                            alt="">
+                        <div style="padding:12px">
+                            <h4>Seasonal gardening guide</h4>
+                            <p class="muted">Admin --  ⱠɄⱤĐɆ -- 01 Jan, 2047</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section>
+            <div class="container">
+                <h2 class="section-title">Gallery</h2>
+                <div class="gallery-grid" data-aos="fade-up">
+                    <figure><img
+                            src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?q=80"
+                            alt=""></figure>
+                    <figure><img
+                            src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?q=80"
+                            alt=""></figure>
+                    <figure><img
+                            src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?q=80"
+                            alt=""></figure>
+                    <figure><img
+                            src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?q=80"
+                            alt=""></figure>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="container">
+                <h2 class="section-title">Contact Us</h2>
+                <div class="contact-card" data-aos="fade-up">
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <input type="text" name="name" placeholder="Your Name" required />
+                            <input type="email" name="email" placeholder="Your Email" required />
+                        </div>
+                        <div style="margin-top:12px;">
+                            <textarea name="message" placeholder="Your Message" required></textarea>
+                        </div>
+                        <div style="text-align:right; margin-top:12px;">
+                            <button class="btn" type="submit">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container footer-grid">
+            <div>
+                <h3 style="color:#fff;">Foody</h3>
+                <p class="muted">Diam dolor diam ipsum sit. Aliqu diam amet diam et eos.</p>
+            </div>
+
+            <div>
+                <h4 style="color:#fff;">Quick Links</h4>
+                <p class="muted">About Us · Contact · Our Services · Terms · Support</p>
+            </div>
+
+            <div>
+                <h4 style="color:#fff;">Newsletter</h4>
+                <p class="muted">Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
+                <form id="newsletter">
+                    <input type="email" placeholder="Your email"
+                        style="padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06)" />
+                    <div style="margin-top:8px;"><button class="btn" type="submit">Sign Up</button></div>
+                </form>
+            </div>
+        </div>
+
+        <div style="text-align:center; color:#888; margin-top:18px; font-size:14px;">
+            © ⱠɄⱤĐɆ's 2025, All Rights Reserved.<br>
+            Crafted with care for healthy living. Eat organic, live better.
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+
+    <script>
+        // Init AOS
+        AOS.init({ duration: 700, once: true });
+
+        // HERO SWIPER
+        const heroSwiper = new Swiper('.hero-swiper', {
+            loop: true,
+            speed: 900,
+            autoplay: { delay: 4500, disableOnInteraction: false },
+            pagination: { el: '.swiper-pagination', clickable: true },
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            effect: 'fade',
+        });
+
+        // TESTIMONIALS SWIPER
+        const testiSwiper = new Swiper('.testi-swiper', {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 20,
+            autoplay: { delay: 4200 },
+            pagination: { el: '.testi-pg', clickable: true },
+            breakpoints: { 768: { slidesPerView: 2 } }
+        });
+
+        // MOBILE HAMBURGER toggle
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobilePanel = document.getElementById('mobile-panel');
+
+        function setMenu(open) {
+            if (open) {
+                mobilePanel.classList.add('open');
+                hamburgerBtn.setAttribute('aria-expanded', 'true');
+                mobilePanel.setAttribute('aria-hidden', 'false');
+            } else {
+                mobilePanel.classList.remove('open');
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
+                mobilePanel.setAttribute('aria-hidden', 'true');
+            }
+        }
+
+        hamburgerBtn.addEventListener('click', e => {
+            const isOpen = mobilePanel.classList.contains('open');
+            setMenu(!isOpen);
+        });
+
+        // Close mobile panel when resizing to desktop
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) setMenu(false);
+        });
+
+        // close mobile panel on link click
+        document.querySelectorAll('.mobile-panel a').forEach(a => {
+            a.addEventListener('click', () => setMenu(false));
+        });
+
+        // Demo contact form submit
+        document.getElementById('contactForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const btn = this.querySelector('button[type="submit"]');
+            btn.textContent = 'Sent ✅';
+            setTimeout(() => btn.textContent = 'Send Message', 1600);
+            this.reset();
+        });
+    </script>
+</body>
+
+</html>
